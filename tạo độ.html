@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Di chuyển khối vuông</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            position: absolute;
+            transition: transform 0.1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="square" id="square"></div>
+
+    <script>
+        let square = document.getElementById('square');
+
+        window.addEventListener('deviceorientation', function(event) {
+            let x = event.beta;  // Lấy giá trị độ nghiêng theo trục X
+            let y = event.gamma; // Lấy giá trị độ nghiêng theo trục Y
+
+            // Điều chỉnh các giá trị x, y để chúng phù hợp với vị trí màn hình
+            x = Math.min(Math.max(x, -90), 90); // Giới hạn độ nghiêng trục X
+            y = Math.min(Math.max(y, -90), 90); // Giới hạn độ nghiêng trục Y
+
+            // Chuyển đổi độ nghiêng thành vị trí di chuyển
+            let moveX = (y / 90) * (window.innerWidth - 100); // Tính vị trí di chuyển theo chiều ngang
+            let moveY = (x / 90) * (window.innerHeight - 100); // Tính vị trí di chuyển theo chiều dọc
+
+            // Di chuyển khối vuông
+            square.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>
